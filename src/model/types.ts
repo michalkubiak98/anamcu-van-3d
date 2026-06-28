@@ -90,7 +90,7 @@ export interface VanSpec {
     ply: Mm
   }
   freshTank: { l: Mm; w: Mm; h: Mm }
-  tankFrame: { clearance: Mm; profileW: Mm; profileH: Mm; topPly: Mm; offsetFront: Mm }
+  tankFrame: { clearance: Mm; profileW: Mm; profileH: Mm; topPly: Mm; offsetFront: Mm; width: Mm }
   fixtures: {
     bath: { l: Mm; w: Mm; h: Mm }
     table: { l: Mm; w: Mm; h: Mm }

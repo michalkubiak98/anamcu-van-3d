@@ -29,12 +29,14 @@ export const DEFAULT_SPEC: VanSpec = {
     ply: 18,
   },
   freshTank: { l: 1650, w: 260, h: 560 },
-  tankFrame: { clearance: 15, profileW: 70, profileH: 40, topPly: 18, offsetFront: 500 },
+  // service cabinet on the driver side: runs from behind the Anker (offsetFront)
+  // to the driver wheel arch. width = how far it comes off the driver wall.
+  tankFrame: { clearance: 20, profileW: 70, profileH: 40, topPly: 18, offsetFront: 760, width: 430 },
   fixtures: {
     bath: { l: 1270, w: 640, h: 450 },
     table: { l: 1260, w: 650, h: 850 },
     cabinet: { l: 1122, w: 461, h: 851 },
-    anker: { l: 450, w: 330, h: 360 },
+    anker: { l: 700, w: 350, h: 420 }, // F3800, freestanding on wheels
     maxxfan: { l: 400, w: 400 },
   },
   greyTank: { l: 1320, w: 310, h: 282, count: 2 },
