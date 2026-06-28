@@ -3,6 +3,7 @@ import { VanProvider } from './state/VanContext'
 import { SelectionProvider, useSelection } from './state/SelectionContext'
 import { Scene } from './three/Scene'
 import { BottomSheet } from './ui/BottomSheet'
+import { InfoPanel } from './ui/InfoPanel'
 import { DEFAULT_SPEC } from './data/defaultSpec'
 
 const MM = 0.001
@@ -32,6 +33,7 @@ export default function App() {
             <div className="text-[#c8a56c] font-semibold text-sm">Anam Cu Van - 3D build</div>
             <div className="text-stone-500 text-xs">drag rotate &middot; pinch zoom &middot; tap a piece for dims</div>
           </div>
+          <InfoPanel />
           <BottomSheet />
         </div>
       </SelectionProvider>

@@ -12,7 +12,7 @@ const TABS: { id: Tab; name: string }[] = [
 
 export function BottomSheet() {
   const [tab, setTab] = useState<Tab>('layers')
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   return (
     <div
