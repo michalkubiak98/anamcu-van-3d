@@ -2,38 +2,43 @@ import { describe, it, expect } from 'vitest'
 import { makeDefaultSpec } from '../../data/defaultSpec'
 import { genFloorFrame } from '../generators/floorFrame'
 import { deriveCutList } from '../cutlist/deriveCutList'
+import { worldDims } from '../geometry'
 
-// Parity with the known-good Python output (gen_floor_frame.py):
-// 70x40 -> rail A 2400 x3, rail B 1950 x3, noggin 560 x28; 28.73 m; 13 sticks of 34.
-describe('floor frame cut list parity', () => {
-  const parts = genFloorFrame(makeDefaultSpec())
+// The floor is full-width with the wheel arches boxed over (redesign 2026-06-28).
+describe('floor frame (full width + arch boxes)', () => {
+  const spec = makeDefaultSpec()
+  const parts = genFloorFrame(spec)
   const cut = deriveCutList(parts)
   const g = cut.groups.find((x) => x.profile === '70x40')!
 
-  it('has a 70x40 group', () => {
-    expect(g).toBeTruthy()
+  it('has 3 full-length channel rails plus interrupted wall rails', () => {
+    expect(parts.filter((p) => p.id.startsWith('rail-ch-'))).toHaveLength(3)
+    expect(parts.some((p) => p.id.startsWith('rail-wallP'))).toBe(true)
+    expect(parts.some((p) => p.id.startsWith('rail-wallD'))).toBe(true)
   })
 
-  it('cuts 3x2400 (full sticks) + 3x1950 (rail extensions) + 28x560 (noggins)', () => {
-    const m = Object.fromEntries(g.byLength.map((t) => [t.length, t.qty]))
-    expect(m[2400]).toBe(3)
-    expect(m[1950]).toBe(3)
-    expect(m[560]).toBe(28)
+  it('boxes over both wheel arches with a platform each', () => {
+    expect(parts.some((p) => p.id === 'archbox-P-top')).toBe(true)
+    expect(parts.some((p) => p.id === 'archbox-D-top')).toBe(true)
+    expect(parts.filter((p) => p.id.includes('-post-'))).toHaveLength(8)
   })
 
-  it('packs into 13 sticks, not short of the 34 owned', () => {
-    expect(g.totalSticks).toBe(13)
-    expect(g.stockAvailable).toBe(34)
+  it('the floor spans the full width', () => {
+    const W = spec.floorFrame.raftWidth
+    const driverWall = parts.find((p) => p.id === 'rail-wallD-front')!
+    expect(driverWall.position.x).toBe(W - spec.floorFrame.bearerW)
+  })
+
+  it('packs the 70x40 into the owned sticks without running short', () => {
+    expect(g.totalSticks).toBeGreaterThan(0)
+    expect(g.totalSticks).toBeLessThanOrEqual(g.stockAvailable)
     expect(g.shortBy).toBe(0)
   })
 
-  it('totals 28.73 linear metres', () => {
-    expect(g.totalLinear).toBe(28730)
-  })
-
-  it('emits 3 rails + 28 noggins as timber', () => {
-    const timber = parts.filter((p) => p.kind === 'timber')
-    expect(timber.filter((p) => p.id.startsWith('rail-'))).toHaveLength(3)
-    expect(timber.filter((p) => p.id.startsWith('nog-'))).toHaveLength(28)
+  it('produces no NaN geometry', () => {
+    for (const p of parts) {
+      const [dx, dy, dz] = worldDims(p.size, p.axis)
+      expect(Number.isFinite(dx + dy + dz + p.position.x + p.position.y + p.position.z)).toBe(true)
+    }
   })
 })

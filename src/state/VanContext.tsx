@@ -1,8 +1,10 @@
-import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react'
+import { createContext, useContext, useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import type { ReactNode } from 'react'
 import type { VanSpec, LayerId, Part, LabelAnchor, CutList } from '../model/types'
-import { makeDefaultSpec, cloneSpec, withDefaults } from '../data/defaultSpec'
+import { makeDefaultSpec, cloneSpec, withDefaults, DEFAULT_SPEC } from '../data/defaultSpec'
 import { LAYERS } from '../data/layers'
+
+const DEFAULT_SCHEMA = DEFAULT_SPEC.schemaVersion
 import { genAllParts, genAllAnchors } from '../model/generators'
 import { deriveCutList } from '../model/cutlist/deriveCutList'
 import { load, save, remove } from '../lib/storage'
@@ -24,6 +26,7 @@ interface VanCtx {
   vis: Vis
   toggleLayer: (id: LayerId) => void
   setAllLayers: (on: boolean) => void
+  flashSolo: (id: LayerId) => void
 }
 
 const Ctx = createContext<VanCtx | null>(null)
@@ -38,7 +41,9 @@ export function useVan(): VanCtx {
 export function VanProvider({ children }: { children: ReactNode }) {
   const [spec, setSpec] = useState<VanSpec>(() => {
     const stored = load<VanSpec>(SPEC_KEY)
-    return stored ? withDefaults(stored) : makeDefaultSpec()
+    // discard saved specs from an older schema (the shape changed materially)
+    if (stored && stored.schemaVersion === DEFAULT_SCHEMA) return withDefaults(stored)
+    return makeDefaultSpec()
   })
   const [vis, setVis] = useState<Vis>(() => ({ ...defaultVis(), ...(load<Vis>(VIS_KEY) ?? {}) }))
 
@@ -75,9 +80,25 @@ export function VanProvider({ children }: { children: ReactNode }) {
     [],
   )
 
+  // briefly isolate one layer (hide the rest) so you can spot what it controls
+  const soloPrev = useRef<Vis | null>(null)
+  const soloTimer = useRef<number | null>(null)
+  const flashSolo = useCallback((id: LayerId) => {
+    setVis((prev) => {
+      if (!soloPrev.current) soloPrev.current = prev
+      return Object.fromEntries(LAYERS.map((l) => [l.id, l.id === id]))
+    })
+    if (soloTimer.current) clearTimeout(soloTimer.current)
+    soloTimer.current = window.setTimeout(() => {
+      if (soloPrev.current) setVis(soloPrev.current)
+      soloPrev.current = null
+      soloTimer.current = null
+    }, 1600)
+  }, [])
+
   const value = useMemo<VanCtx>(
-    () => ({ spec, setField, replaceSpec, resetSpec, parts, anchors, cutList, vis, toggleLayer, setAllLayers }),
-    [spec, setField, replaceSpec, resetSpec, parts, anchors, cutList, vis, toggleLayer, setAllLayers],
+    () => ({ spec, setField, replaceSpec, resetSpec, parts, anchors, cutList, vis, toggleLayer, setAllLayers, flashSolo }),
+    [spec, setField, replaceSpec, resetSpec, parts, anchors, cutList, vis, toggleLayer, setAllLayers, flashSolo],
   )
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>

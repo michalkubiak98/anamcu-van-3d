@@ -3,7 +3,7 @@ import type { VanSpec } from '../model/types'
 // The MEASURED van (Obsidian Builds/Measurements.md + Cladding,Floor&Doors.md + BoM).
 // Everything in mm. Approximate values are flagged in the spec where relevant.
 export const DEFAULT_SPEC: VanSpec = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   shell: {
     length: 4350,
     widthAboveArches: 1790,
@@ -23,7 +23,7 @@ export const DEFAULT_SPEC: VanSpec = {
     bearerW: 70,
     bearerH: 40,
     raftLength: 4350,
-    raftWidth: 1330,
+    raftWidth: 1700, // FULL floor width (wall to wall at floor level, approx - editable)
     crossLines: [0, 400, 800, 1200, 1600, 2000, 2400, 2800, 3200, 3500, 3700, 3950, 4150, 4280],
     pir: 25,
     ply: 18,

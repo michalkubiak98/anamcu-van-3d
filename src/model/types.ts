@@ -10,6 +10,7 @@ export type LayerId =
   | 'shell'
   | 'wheelArches'
   | 'floorFrame'
+  | 'archBoxes'
   | 'floorPIR'
   | 'floorPly'
   | 'tankFrame'

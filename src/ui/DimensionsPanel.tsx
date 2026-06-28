@@ -58,8 +58,8 @@ export function DimensionsPanel() {
       </Section>
 
       <Section title="Floor frame">
-        {F('floorFrame.raftLength', 'Raft length', spec.floorFrame.raftLength)}
-        {F('floorFrame.raftWidth', 'Raft width', spec.floorFrame.raftWidth)}
+        {F('floorFrame.raftLength', 'Floor length', spec.floorFrame.raftLength)}
+        {F('floorFrame.raftWidth', 'Floor width (wall-wall)', spec.floorFrame.raftWidth, true)}
         {F('floorFrame.bearerW', 'Bearer width', spec.floorFrame.bearerW, false, 5)}
         {F('floorFrame.bearerH', 'Bearer height', spec.floorFrame.bearerH, false, 5)}
         {F('floorFrame.pir', 'Floor PIR', spec.floorFrame.pir, false, 5)}
