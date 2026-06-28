@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useMemo, useEffect, useCallback } from 'react'
 import type { ReactNode } from 'react'
 import type { VanSpec, LayerId, Part, LabelAnchor, CutList } from '../model/types'
-import { makeDefaultSpec, cloneSpec } from '../data/defaultSpec'
+import { makeDefaultSpec, cloneSpec, withDefaults } from '../data/defaultSpec'
 import { LAYERS } from '../data/layers'
 import { genAllParts, genAllAnchors } from '../model/generators'
 import { deriveCutList } from '../model/cutlist/deriveCutList'
@@ -36,7 +36,10 @@ export function useVan(): VanCtx {
 }
 
 export function VanProvider({ children }: { children: ReactNode }) {
-  const [spec, setSpec] = useState<VanSpec>(() => load<VanSpec>(SPEC_KEY) ?? makeDefaultSpec())
+  const [spec, setSpec] = useState<VanSpec>(() => {
+    const stored = load<VanSpec>(SPEC_KEY)
+    return stored ? withDefaults(stored) : makeDefaultSpec()
+  })
   const [vis, setVis] = useState<Vis>(() => ({ ...defaultVis(), ...(load<Vis>(VIS_KEY) ?? {}) }))
 
   useEffect(() => {
@@ -56,7 +59,7 @@ export function VanProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
-  const replaceSpec = useCallback((s: VanSpec) => setSpec(cloneSpec(s)), [])
+  const replaceSpec = useCallback((s: VanSpec) => setSpec(withDefaults(s)), [])
   const resetSpec = useCallback(() => {
     remove(SPEC_KEY)
     setSpec(makeDefaultSpec())

@@ -17,6 +17,7 @@ export type LayerId =
   | 'fixtures'
   | 'greyTanks'
   // registered now, generated in later sessions:
+  | 'separatorWall'
   | 'walls'
   | 'ceiling'
   | 'ceilingRidges'
@@ -99,6 +100,17 @@ export interface VanSpec {
     maxxfan: { l: Mm; w: Mm }
   }
   greyTank: { l: Mm; w: Mm; h: Mm; count: number }
+  framing: {
+    battenW: Mm // 45 (wall/ceiling/separator batten face)
+    battenH: Mm // 35 (depth)
+    wallStudSpacing: Mm
+    separatorStudSpacing: Mm
+    ceilingRibSpacing: Mm // the van's existing roof ribs
+    ceilingRibHeight: Mm
+    ceilingBattenSpacing: Mm
+    wallPly: Mm // 12
+    ceilingPly: Mm // 12
+  }
 }
 
 // ---- Cut list

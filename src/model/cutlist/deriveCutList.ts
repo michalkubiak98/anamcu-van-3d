@@ -77,6 +77,7 @@ export function deriveCutList(parts: Part[]): CutList {
 
 function sheetMaterial(label: string): keyof typeof SHEETS | null {
   if (/PIR/i.test(label)) return 'pir25'
-  if (/ply|oak/i.test(label)) return 'ply18'
+  if (/12\s?mm/i.test(label)) return 'ply12'
+  if (/ply|oak|worktop|lid/i.test(label)) return 'ply18'
   return null
 }

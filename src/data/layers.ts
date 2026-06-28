@@ -11,11 +11,12 @@ export const LAYERS: Layer[] = [
   { id: 'freshTank', name: 'Fresh tank', defaultVisible: true, color: '#4a90d9', order: 6 },
   { id: 'fixtures', name: 'Fixtures', defaultVisible: true, color: '#d98a4a', order: 7 },
   { id: 'greyTanks', name: 'Grey tanks', defaultVisible: false, color: '#8a8f98', order: 8 },
-  // built in later sessions
-  { id: 'walls', name: 'Walls (soon)', defaultVisible: false, color: '#b07a4a', order: 9 },
-  { id: 'ceiling', name: 'Ceiling (soon)', defaultVisible: false, color: '#b07a4a', order: 10 },
-  { id: 'ceilingRidges', name: 'Ceiling ridges (soon)', defaultVisible: false, color: '#7a8a72', order: 11 },
-  { id: 'backDoors', name: 'Back doors (soon)', defaultVisible: false, color: '#9a8a6a', order: 12 },
+  { id: 'separatorWall', name: 'Cabin separator wall', defaultVisible: true, color: '#b88a52', order: 9 },
+  { id: 'walls', name: 'Wall framing', defaultVisible: false, color: '#b07a4a', order: 10 },
+  { id: 'ceilingRidges', name: 'Ceiling ridges (roof)', defaultVisible: false, color: '#7a8a72', order: 11 },
+  { id: 'ceiling', name: 'Ceiling framing', defaultVisible: false, color: '#a07a4a', order: 12 },
+  // built in a later session
+  { id: 'backDoors', name: 'Back doors (soon)', defaultVisible: false, color: '#9a8a6a', order: 13 },
 ]
 
 export const LAYER_COLOR: Record<LayerId, string> = Object.fromEntries(
