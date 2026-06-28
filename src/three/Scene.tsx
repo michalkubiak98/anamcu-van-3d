@@ -5,7 +5,7 @@ import { Controls } from './Controls'
 
 const MM = 0.001
 
-export function Scene() {
+export function Scene({ mode }: { mode: 'orbit' | 'pan' }) {
   const { parts, anchors, vis, spec } = useVan()
 
   const visParts = parts.filter((p) => vis[p.layerId])
@@ -21,7 +21,7 @@ export function Scene() {
       <ambientLight intensity={0.8} />
       <directionalLight position={[2.5, 6, 3]} intensity={0.75} />
       <directionalLight position={[-3, 4, -2]} intensity={0.25} />
-      <Controls target={target} />
+      <Controls target={target} mode={mode} />
 
       {visParts.map((p) => (
         <PartMesh key={p.id} part={p} />

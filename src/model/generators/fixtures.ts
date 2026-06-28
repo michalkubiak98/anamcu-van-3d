@@ -9,7 +9,6 @@ export function genFixtures(spec: VanSpec): Part[] {
   const raftW = spec.floorFrame.raftWidth
   const yTop = floorTop(spec)
   const cx = raftW / 2
-  const ind = 'indicative position - resolve on site'
   const parts: Part[] = []
 
   // Anker F3800: FREESTANDING on wheels in the front driver corner (never framed,
@@ -21,12 +20,13 @@ export function genFixtures(spec: VanSpec): Part[] {
       { axis: 'z', color: '#cf5b4a', opacity: 0.35, notes: '~70kg, rolls out - not fixed, restrain so it cannot roll in transit' }),
   )
 
-  // Bunker cabinet: front passenger side, along the separator wall
+  // Bunker cabinet: against the cabin SEPARATOR wall (front), running ACROSS -
+  // keeps the passenger side wall clear so the sliding door is usable.
   parts.push(
     box('fix-cabinet', 'fixtures', 'Bunker cabinet (tools)', 'fixture',
       { x: 10, y: yTop, z: 20 },
       { l: fx.cabinet.l, w: fx.cabinet.w, h: fx.cabinet.h },
-      { axis: 'z', color: '#2c8a5a', opacity: 0.3, notes: ind }),
+      { axis: 'x', color: '#2c8a5a', opacity: 0.3, notes: 'against the separator wall - keeps the side door clear' }),
   )
 
   // Hydraulic table: passenger side, removable for camper mode
