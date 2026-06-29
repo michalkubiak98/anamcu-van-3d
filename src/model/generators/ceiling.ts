@@ -13,8 +13,11 @@ export function genCeiling(spec: VanSpec): Part[] {
   const raftW = spec.floorFrame.raftWidth
   const parts: Part[] = []
 
-  // existing roof ribs (the "ridges") - transverse, ~50mm proud, context only
-  const ribY = H - fr.ceilingRibHeight
+  // existing roof ribs (the "ridges") - transverse, ~50mm proud, context only.
+  // 1940 is measured TO the rib (the proud low point), so the rib face sits at H
+  // and its body extends UP into the roof; battens + ply hang BELOW H. (Earlier
+  // this subtracted the rib height first, understating headroom by ~50mm.)
+  const ribY = H
   const ribZs: number[] = []
   for (let z = fr.ceilingRibSpacing / 2; z < len; z += fr.ceilingRibSpacing) ribZs.push(z)
   ribZs.forEach((z, i) =>

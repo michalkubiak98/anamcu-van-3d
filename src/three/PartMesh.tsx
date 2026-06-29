@@ -26,7 +26,7 @@ export function PartMesh({ part }: { part: Part }) {
   const isEnvelope = part.kind === 'fixture' || part.kind === 'tank' || part.kind === 'shell'
   const nonInteractive = part.kind === 'shell' && (part.opacity ?? 1) <= 0.06
   const fillOpacity = isEnvelope ? (active ? 0.22 : 0.08) : part.opacity ?? 1
-  const edgeColor = active ? '#ffd27a' : isEnvelope ? base : '#0c0f0a'
+  const edgeColor = active ? '#ffd27a' : part.approximate ? '#e0a23c' : isEnvelope ? base : '#0c0f0a'
 
   return (
     <mesh
