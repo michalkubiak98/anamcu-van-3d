@@ -36,16 +36,16 @@ export default function App() {
 
           <div className="absolute top-0 left-0 p-3 pointer-events-none">
             <div className="text-[#c8a56c] font-semibold text-sm">Anam Cu Van - 3D build</div>
-            <div className="text-stone-500 text-xs">drag, pinch to zoom, tap a piece for dims</div>
           </div>
 
-          {/* camera mode: orbit (rotate) vs pan (move through the space) */}
-          <div className="absolute top-12 left-3 z-20 flex rounded-lg overflow-hidden border border-[#2c4034] text-sm">
+          <div className="absolute top-10 left-3 z-20 flex overflow-hidden rounded-md bg-[#10140f]/90 p-1 text-sm shadow-lg">
             {(['orbit', 'pan'] as Mode[]).map((m) => (
               <button
                 key={m}
                 onClick={() => setMode(m)}
-                className={`px-4 h-9 capitalize ${mode === m ? 'bg-[#2c4034] text-stone-100' : 'bg-[#161a12]/90 text-stone-400'}`}
+                className={`h-8 rounded px-4 capitalize ${
+                  mode === m ? 'bg-[#2c4034] text-stone-100' : 'text-stone-400 active:bg-[#1b2118]'
+                }`}
               >
                 {m}
               </button>

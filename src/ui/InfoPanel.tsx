@@ -14,20 +14,20 @@ export function InfoPanel() {
 
   if (!part) {
     return (
-      <div className="fixed top-3 right-3 z-20 w-44 rounded-lg bg-[#161a12]/85 border border-[#2c4034] p-2 text-xs text-stone-400">
-        Tap or hover a piece to see its dimensions.
+      <div className="fixed top-3 right-3 z-20 w-40 rounded-md bg-[#10140f]/85 p-2 text-xs text-stone-500 shadow-lg">
+        No piece selected
       </div>
     )
   }
 
   const layer = LAYERS.find((l) => l.id === part.layerId)
   return (
-    <div className="fixed top-3 right-3 z-20 w-56 rounded-lg bg-[#161a12]/95 border border-[#c8a56c] p-3 text-sm shadow-lg">
+    <div className="fixed top-3 right-3 z-20 w-56 rounded-md bg-[#10140f]/95 p-3 text-sm shadow-xl ring-1 ring-[#c8a56c]/40">
       <div className="flex items-center gap-2 font-semibold text-[#ffd27a]">
-        <span style={{ background: layer?.color }} className="w-3 h-3 rounded-full inline-block shrink-0" />
+        <span style={{ background: layer?.color }} className="inline-block h-3 w-3 shrink-0 rounded-full" />
         <span className="leading-tight">{part.label}</span>
       </div>
-      <div className="text-stone-100 mt-1.5 tabular-nums">
+      <div className="mt-1.5 text-stone-100 tabular-nums">
         {fmt(part.size.l)} x {fmt(part.size.w)} x {fmt(part.size.h)} mm
       </div>
       {part.cut && (
@@ -37,7 +37,7 @@ export function InfoPanel() {
       )}
       {part.approximate && <div className="text-amber-300">approximate - verify</div>}
       {part.notes && <div className="text-stone-400 text-xs mt-1">{part.notes}</div>}
-      <div className="text-stone-500 text-[11px] mt-1.5">{layer?.name}</div>
+      <div className="mt-1.5 text-[11px] text-stone-500">{layer?.name}</div>
     </div>
   )
 }

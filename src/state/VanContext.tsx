@@ -93,7 +93,7 @@ export function VanProvider({ children }: { children: ReactNode }) {
       if (soloPrev.current) setVis(soloPrev.current)
       soloPrev.current = null
       soloTimer.current = null
-    }, 1600)
+    }, 10000)
   }, [])
 
   const value = useMemo<VanCtx>(

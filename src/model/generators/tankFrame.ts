@@ -71,18 +71,23 @@ export function genTankFrame(spec: VanSpec): Part[] {
   )
 
   // the tank itself, inside the cabinet on the floor
-  const tankOver = t.l > outerL - 2 * (pw + tf.clearance)
+  const innerL = outerL - 2 * (pw + tf.clearance)
+  const innerW = outerW - 2 * (pw + tf.clearance)
+  const tankLengthOver = t.l > innerL
+  const tankWidthOver = t.w > innerW
+  const tankFitWarning = tankLengthOver || tankWidthOver
   parts.push(
     box('fresh-tank', 'freshTank', 'Fresh water tank (200 L)', 'tank',
       { x: x0 + pw + tf.clearance, y: y0, z: z0 + pw + tf.clearance },
       { l: t.l, w: t.w, h: t.h },
       {
         axis: 'z',
-        color: '#4a90d9',
+        color: tankFitWarning ? '#d98a4a' : '#4a90d9',
         opacity: 0.35,
-        notes: tankOver
-          ? `1650 long - run behind the Anker is only ${Math.round(outerL)}mm. CONFIRM FIT or move the Anker.`
-          : '1650 x 260 x 560, double ArmaFlex + heater mat',
+        approximate: tankFitWarning || undefined,
+        notes: tankFitWarning
+          ? `${t.l} x ${t.w} tank needs ${t.l + 2 * (pw + tf.clearance)} x ${t.w + 2 * (pw + tf.clearance)} outer frame. Current inner space is ${Math.round(innerL)} x ${Math.round(innerW)}. Adjust cabinet width or Anker offset before cutting.`
+          : `${t.l} x ${t.w} x ${t.h}, double ArmaFlex + heater mat`,
       }),
   )
 
