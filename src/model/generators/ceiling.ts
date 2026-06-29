@@ -24,7 +24,7 @@ export function genCeiling(spec: VanSpec): Part[] {
     parts.push(
       box(`rib-${i}`, 'ceilingRidges', `Roof rib ${i + 1}`, 'shell',
         { x: 0, y: ribY, z }, { l: raftW, w: 30, h: fr.ceilingRibHeight },
-        { axis: 'x', color: '#7a8a72', opacity: 0.5, notes: 'existing van roof rib (PIR goes in the valley)' }),
+        { axis: 'x', color: '#7a8a72', opacity: 0.5, approximate: true, notes: 'existing van roof rib spacing is approximate; PIR goes in the valley' }),
     ),
   )
 
@@ -37,6 +37,8 @@ export function genCeiling(spec: VanSpec): Part[] {
     parts.push(box(id, 'ceiling', label, 'timber', position, size, {
       axis,
       cut: { cutLength: size.l, profile: '45x35', fromStock: true },
+      approximate: true,
+      notes: 'indicative only - glue front-to-back battens onto the real roof ribs',
     }))
   xs.forEach((x, i) =>
     timber(`ceil-batten-${i}`, `Ceiling batten ${i + 1}`, { x, y: battenY, z: 0 }, { l: len, w: bw, h: bh }, 'z'),
@@ -47,7 +49,7 @@ export function genCeiling(spec: VanSpec): Part[] {
     box('ceil-ply', 'ceiling', 'Ceiling ply (12mm)', 'panel',
       { x: 0, y: battenY - fr.ceilingPly, z: 0 },
       { l: len, w: raftW, h: fr.ceilingPly },
-      { axis: 'z', color: '#a07a4a', opacity: 0.4, notes: 'follows the roof curve - do not force flat' }),
+      { axis: 'z', color: '#a07a4a', opacity: 0.4, approximate: true, notes: 'follows the roof curve - do not force flat' }),
   )
 
   return parts

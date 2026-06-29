@@ -23,6 +23,17 @@ describe('floor frame (full width + arch boxes)', () => {
     expect(parts.filter((p) => p.id.includes('-post-'))).toHaveLength(8)
   })
 
+  it('adds approximate socket bearers for bath and table feet', () => {
+    const sockets = parts.filter((p) => p.layerId === 'socketBearers')
+    expect(sockets.map((p) => p.id).sort()).toEqual([
+      'socket-bath-front',
+      'socket-bath-rear',
+      'socket-table-front',
+      'socket-table-rear',
+    ])
+    expect(sockets.every((p) => p.approximate)).toBe(true)
+  })
+
   it('the floor spans the full width', () => {
     const W = spec.floorFrame.raftWidth
     const driverWall = parts.find((p) => p.id === 'rail-wallD-front')!

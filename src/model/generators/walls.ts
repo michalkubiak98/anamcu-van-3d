@@ -18,6 +18,8 @@ export function genWalls(spec: VanSpec): Part[] {
     parts.push(box(id, 'walls', label, 'timber', position, size, {
       axis,
       cut: { cutLength: size.l, profile, fromStock: true },
+      approximate: true,
+      notes: 'indicative only - land wall battens on the real inner ribs and fixing points',
     }))
 
   // sideX = x of the batten's outer face; battens protrude bw into the room
